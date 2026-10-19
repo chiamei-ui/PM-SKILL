@@ -19,20 +19,55 @@
 
 這個專案提供 Markdown 指令與參考規則，由支援 Skill 的 Agent 讀取執行。日常成果是對話分析、決策選項、求助／交接草稿與必要的既有記錄更新，無需另外操作介面。
 
+### 安裝前：準備兩個 Skill
+
+本專案需要 `project-kickoff-planner` 與 [`i-have-adhd`](https://github.com/iizcm/i-have-adhd-skill)。前者分析專案，後者負責讓人容易理解並採取決策。請下載本倉庫，以及 `i-have-adhd` 的完整 Skill 資料夾，分別安裝到下列位置；資料夾最上層都必須有 `SKILL.md`。若已有同名版本，先保留備份再更新。
+
+`i-have-adhd` 是外部依賴，本倉庫未附帶其內容；安裝後請在首次使用時明確啟用。缺少或尚未能載入時，Agent 可先讀資料與分析，但會暫緩交付給人決策的內容，說明如何補齊。
+
 ### 安裝到 Codex
 
 將儲存庫中的 `skills/project-kickoff-planner` 整個資料夾放入自己的 `~/.codex/skills/`，依使用環境重新載入技能。Windows 預設位置為 `C:\Users\<使用者名稱>\.codex\skills\`。若已安裝同名舊版，先保留備份，再更新該資料夾。
 
-技能沿用 `project-kickoff-planner` 名稱，延伸原有啟動、變更與卡點處理能力；本版移除預設 HTML 產出與其他 Skill 的必要依賴。其他 Agent 可直接讀取 [SKILL.md](skills/project-kickoff-planner/SKILL.md)，是否自動載入取決於該工具的機制。
+將 `i-have-adhd` 資料夾同樣放入 `~/.codex/skills/`。完成後應有：
+
+```text
+~/.codex/skills/project-kickoff-planner/SKILL.md
+~/.codex/skills/i-have-adhd/SKILL.md
+```
+
+### 安裝到 Claude Code
+
+1. 將本倉庫的 `skills/project-kickoff-planner` 整個資料夾放入 `~/.claude/skills/`。
+2. 將下載的 `i-have-adhd` 資料夾同樣放入 `~/.claude/skills/`。
+3. 開啟 Claude Code，在對話中先輸入 `/i-have-adhd`，再輸入 `/project-kickoff-planner` 與專案問題。
+
+Windows 的個人安裝位置為 `C:\Users\<使用者名稱>\.claude\skills\`。若只想讓特定專案使用，兩個資料夾也可放入該專案的 `.claude/skills/`。這裡說明的是 Claude Code；Claude 網頁版或 Cowork 的安裝入口不同。路徑與呼叫方式依 [Claude Code 官方 Skill 文件](https://code.claude.com/docs/en/skills)。
+
+完成後應有：
+
+```text
+~/.claude/skills/project-kickoff-planner/SKILL.md
+~/.claude/skills/i-have-adhd/SKILL.md
+```
+
+技能沿用 `project-kickoff-planner` 名稱，延伸啟動、變更與卡點處理能力；不預設產出 HTML。其他 Agent 可直接讀取 [SKILL.md](skills/project-kickoff-planner/SKILL.md)，並載入 `i-have-adhd`；是否自動載入取決於該工具的機制。
 
 ### 直接這樣問
 
 ```text
 使用 $project-kickoff-planner。
+同時使用 $i-have-adhd，讓輸出適合人閱讀與決策。
 我本職是行銷，兼任這個專案的 PM。
 請讀這份會議紀錄與目前任務，分析真正卡住的點、我該決定與該請誰提供的輸入。
 先給一個現在能做的行動，再幫我寫交接草稿。
 ```
+
+上方為 Codex 範例。Claude Code 請先輸入 `/i-have-adhd`，接著用 `/project-kickoff-planner` 加上同一段專案描述。
+
+### 給人決策的輸出規則
+
+Agent 必須先使用 `i-have-adhd`，再交付計畫、選項比較、主管摘要或交接草稿：先呈現下一步與目前狀態，多步工作編號，長內容分組，保留證據與選項代價，尚有待辦時以一個可立即開始的行動收尾。這是人類決策內容的必要步驟，並非僅建議文字簡短；使用者明確停用時依其指示處理。
 
 也可以問：「工程說來不及，幫我整理該問的原因與取捨」、「這個新增需求要怎麼處理」、「把這份復盤轉成下次遇到同類問題的做法」。提供現有文件、畫面、決策或任務即可；不必先填完整表單。
 
