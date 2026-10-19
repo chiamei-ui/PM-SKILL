@@ -65,4 +65,4 @@ Skill 不取代專業 PM、工程可行性評估或主管授權。它也不會�
 - [目標與時程](skills/project-kickoff-planner/references/outcomes.md)：KPI、估時與取捨。
 - [設計依據](docs/design-rationale.md)：從復盤內化的做法與適用界線。
 
-這是可迭代的 Skill 初版。GitHub 儲存庫先設為私人；公開與否之後再決定。
+這是可迭代的 Skill 初版，GitHub 儲存庫已公開。請勿提交內部敏感資料。
